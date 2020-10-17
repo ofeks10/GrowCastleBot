@@ -1,0 +1,2 @@
+pywin32
+python-imageseach-drov0
