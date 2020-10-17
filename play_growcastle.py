@@ -1,9 +1,10 @@
 from win32api import GetSystemMetrics
 import win32gui
-from python_imagesearch.imagesearch import imagesearch_region_loop, imagesearcharea, click_image
+from python_imagesearch.imagesearch import imagesearch_region_loop, imagesearcharea, click_image, region_grabber
 import argparse
 import time
 import threading
+import random
 
 
 def parse_args():
@@ -48,7 +49,7 @@ def search_for_replay(start_x, start_y, end_x, end_y):
         pos = imagesearcharea('./references/Replay.png', start_x, start_y, end_x, end_y)
         if pos[0] != -1:
             is_in_menu = True
-        time.sleep(1)
+        time.sleep(random.randint(5, 11) / 10)
 
 
 def main():
@@ -73,7 +74,7 @@ def main():
         click_image('./references/Replay.png', position_for_window, 'left', .2, offset=7)
 
         # Let the animation finish
-        time.sleep(.7)
+        time.sleep(random.randint(7, 11) / 10)
 
         # Click the Anti-Bot press
         pos = imagesearcharea('./references/100_gems.png', start_x, start_y, end_x, end_y)
@@ -92,18 +93,36 @@ def main():
         })
         search_thread.start()
 
-        # Search for Tounge Chest
+        # Search for Tounge Chest and click Alice
         while not is_in_menu:
-            pos = imagesearcharea('./references/tongue_chest.png', start_x, start_y, end_x, end_y)
+            im = region_grabber((start_x, start_y, end_x, end_y))
+            pos = imagesearcharea('./references/tongue_chest.png', start_x, start_y, end_x, end_y, im=im)
             if pos[0] != -1:
                 position_for_window = [0, 0]
                 position_for_window[0] = pos[0] + start_x
                 position_for_window[1] = pos[1] + start_y
-                print(position_for_window)
-                click_image('./references/100_gems.png', position_for_window, 'left', .2, offset=7)
+                print('cliking chest in', position_for_window)
+                click_image('./references/tongue_chest.png', position_for_window, 'left', .2, offset=7)
+
+            alice_pos = imagesearcharea('./references/Alice.png', start_x, start_y, end_x, end_y, precision=0.95, im=im)
+            lisa_pos = imagesearcharea('./references/Lisa.png', start_x, start_y, end_x, end_y, precision=0.90, im=im)
+            if alice_pos[0] != -1 or lisa_pos[0] != -1:
+                alice_position_for_window = [0, 0]
+                alice_position_for_window[0] = alice_pos[0] + start_x
+                alice_position_for_window[1] = alice_pos[1] + start_y
+                lisa_position_for_window = [0, 0]
+                lisa_position_for_window[0] = lisa_pos[0] + start_x
+                lisa_position_for_window[1] = lisa_pos[1] + start_y
+                time.sleep(random.randint(0, 3) / 10)
+                print('clicking witches in: ', alice_position_for_window, lisa_position_for_window)
+                if alice_pos[0]  != -1:
+                    click_image('./references/Alice.png', alice_position_for_window, 'left', .1, offset=2)
+                if lisa_pos[0] != -1:
+                    click_image('./references/Lisa.png', lisa_position_for_window, 'left', .1, offset=2)
             time.sleep(.1)
         search_thread.join()
         print('finished one level, replaying')
+        is_in_menu = True
 
 
 if __name__ == "__main__":
