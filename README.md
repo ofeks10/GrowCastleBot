@@ -9,7 +9,6 @@ In order for this bot to work you need to do a few steps with adb and scrcpy:
 ## Installation
 Just run `pip install -r requirements.txt`
 ## Running
-    ``
     usage: play_growcastle.py [-h] [--scrcpy_window_name SCRCPY_WINDOW_NAME] {replay,battle}
 
     This script will automate level advancements for grow castle
@@ -21,4 +20,3 @@ Just run `pip install -r requirements.txt`
     -h, --help            show this help message and exit
     --scrcpy_window_name SCRCPY_WINDOW_NAME, -w SCRCPY_WINDOW_NAME
                             The name of the window of scrcpy. This is for optimizations
-    ``
