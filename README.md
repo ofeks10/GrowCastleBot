@@ -5,7 +5,7 @@ In order for this bot to work you need to do a few steps with adb and scrcpy:
 2. run the command: `adb tcpip <port>`
 3. Unplug your phone from your computer
 4. run the command: `adb connect <phone_ip>:<port>`
-5. run scrcpy
+5. run scrcpy with `scrcpy -b2M -m800`
 ## Installation
 Just run `pip install -r requirements.txt`
 ## Running
